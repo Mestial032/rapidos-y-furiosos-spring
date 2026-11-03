@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -99,7 +101,9 @@ public class EmpleadoEntity implements Serializable {
 	private String usuario;
 
 	// La clave es obligatoria al registrar; al actualizar se puede dejar en blanco
-	// para conservar la actual (se valida en el controlador y en el servicio)
+	// para conservar la actual (se valida en el controlador y en el servicio).
+	// Se guarda cifrada con BCrypt y la API REST la recibe pero nunca la devuelve
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Size(min = 4, max = 255, message = "La clave debe tener entre 4 y 255 caracteres")
 	@Column(name = "claemp", length = 255, nullable = false)
 	private String clave;

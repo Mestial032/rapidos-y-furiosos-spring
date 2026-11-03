@@ -22,6 +22,9 @@ Proyecto del curso Desarrollo de Soluciones Cloud Básico (ISIL, 2026-2).
 
 La colección de Postman está en `postman/`.
 
+Las claves de los empleados se guardan cifradas con BCrypt y la API REST nunca las devuelve.
+Los empleados de prueba del script SQL tienen la clave `demo1234`.
+
 ## Estructura
 
 ```

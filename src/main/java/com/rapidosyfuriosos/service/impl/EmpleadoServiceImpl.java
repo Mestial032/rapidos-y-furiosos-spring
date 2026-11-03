@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rapidosyfuriosos.entity.EmpleadoEntity;
@@ -16,6 +18,9 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 	// Inyeccion de dependencias hacia el repositorio
 	@Autowired
 	private EmpleadoRepository repositorio;
+
+	// Cifrado de claves: nunca se guardan en texto plano
+	private final PasswordEncoder cifrador = new BCryptPasswordEncoder();
 
 	@Override
 	public List<EmpleadoEntity> findAll() {
@@ -34,6 +39,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
 	@Override
 	public EmpleadoEntity add(EmpleadoEntity obj) {
+		obj.setClave(cifrador.encode(obj.getClave()));
 		return repositorio.save(obj);
 	}
 
@@ -47,6 +53,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 			BeanUtils.copyProperties(obj, objEmpleado, "codigo", "clave");
 		} else {
 			BeanUtils.copyProperties(obj, objEmpleado, "codigo");
+			objEmpleado.setClave(cifrador.encode(obj.getClave()));
 		}
 		return repositorio.save(objEmpleado);
 	}
