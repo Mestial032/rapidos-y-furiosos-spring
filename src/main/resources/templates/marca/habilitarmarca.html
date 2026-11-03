@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/plantilla :: cabecera('Habilitar Marca')}"></head>
+
+<body>
+  <nav th:replace="~{fragments/plantilla :: menu}"></nav>
+  <div class="container">
+    <div class="contenido shadow-sm p-4">
+    <h1 class="titulo-pagina">Habilitar / Deshabilitar Marcas</h1>
+    <div th:replace="~{fragments/plantilla :: alertas}"></div>
+    <a th:href="@{/marca/listar}" class="btn btn-dark">Regresar</a>
+    <div class="mb-3"></div>
+    <!-- inicio de la tabla -->
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col" class="text-center">Habilitar</th>
+            <th scope="col" class="text-center">Deshabilitar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="mar : ${listamarca}">
+            <th scope="row" th:text="${mar.codigo}"></th>
+            <td th:text="${mar.nombre}"></td>
+            <td><span class="badge" th:classappend="${mar.estado} ? 'text-bg-success' : 'text-bg-secondary'"
+                th:text="${mar.estado} ? 'Habilitado':'Deshabilitado'"></span></td>
+            <td class="text-center"><a th:href="@{/marca/habilitar/{id}(id=${mar.codigo})}" class="btn btn-warning btn-sm"
+                th:classappend="${mar.estado} ? 'disabled'">Seleccionar</a></td>
+            <td class="text-center"><a th:href="@{/marca/deshabilitar/{id}(id=${mar.codigo})}" class="btn btn-danger btn-sm"
+                th:classappend="${!mar.estado} ? 'disabled'">Seleccionar</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(listamarca)}">
+            <td colspan="5" class="text-center text-muted">No hay registros para mostrar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- fin de la tabla -->
+    </div>
+  </div>
+  <th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+
+</html>

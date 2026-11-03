@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/plantilla :: cabecera('Menu Principal')}"></head>
+
+<body>
+  <!-- barra de menu -->
+  <nav th:replace="~{fragments/plantilla :: menu}"></nav>
+
+  <!-- inicio del contenedor de Bootstap -->
+  <div class="container">
+    <div class="contenido shadow-sm p-4 mb-4">
+      <h1 class="titulo-pagina">Bienvenido a Rapidos y Furiosos S.A.C.</h1>
+      <p class="text-muted mb-0">Sistema de gestion del taller automotriz. Seleccione un mantenimiento.</p>
+    </div>
+
+    <h4 class="mb-3">Mantenimiento Simple</h4>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4">
+      <div class="col" th:each="op : ${ {
+          {'distrito','Distrito','bi-geo-alt'},
+          {'sexo','Sexo','bi-gender-ambiguous'},
+          {'tipodocumento','Tipo de Documento','bi-card-text'},
+          {'estadocivil','Estado Civil','bi-people'},
+          {'marca','Marca','bi-tags'},
+          {'color','Color','bi-palette'},
+          {'rol','Rol','bi-person-badge'},
+          {'servicio','Servicio','bi-tools'} } }">
+        <a th:href="@{'/' + ${op[0]} + '/listar'}" class="card h-100 text-decoration-none shadow-sm">
+          <div class="card-body d-flex align-items-center gap-3">
+            <i class="bi fs-2 text-primary" th:classappend="${op[2]}"></i>
+            <span class="fw-semibold text-dark" th:text="${op[1]}"></span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <h4 class="mb-3">Mantenimiento Cruzado</h4>
+    <div class="row row-cols-1 row-cols-sm-3 g-3 mb-4">
+      <div class="col" th:each="op : ${ {
+          {'cliente','Cliente','bi-person-vcard'},
+          {'empleado','Empleado','bi-person-workspace'},
+          {'vehiculo','Vehiculo','bi-car-front'} } }">
+        <a th:href="@{'/' + ${op[0]} + '/listar'}" class="card h-100 text-decoration-none shadow-sm">
+          <div class="card-body d-flex align-items-center gap-3">
+            <i class="bi fs-2 text-success" th:classappend="${op[2]}"></i>
+            <span class="fw-semibold text-dark" th:text="${op[1]}"></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- fin del contenedor de Bootstrap -->
+  <th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+
+</html>

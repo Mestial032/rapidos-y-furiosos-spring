@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/plantilla :: cabecera('Registro no encontrado')}"></head>
+
+<body>
+  <nav th:replace="~{fragments/plantilla :: menu}"></nav>
+  <div class="container">
+    <div class="contenido shadow-sm p-4">
+      <h1 class="titulo-pagina">Registro no encontrado</h1>
+      <div th:replace="~{fragments/plantilla :: alertas}"></div>
+      <a th:href="@{/menuprincipal}" class="btn btn-dark">Regresar al Menu Principal</a>
+    </div>
+  </div>
+  <th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+
+</html>

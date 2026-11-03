@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/plantilla :: cabecera('Listar Color')}"></head>
+
+<body>
+  <nav th:replace="~{fragments/plantilla :: menu}"></nav>
+  <div class="container">
+    <div class="contenido shadow-sm p-4">
+    <h1 class="titulo-pagina">Listado de Colores</h1>
+    <div th:replace="~{fragments/plantilla :: alertas}"></div>
+    <a th:href="@{/color/registro}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Registrar Color</a>
+    <a th:href="@{/color/habilita}" class="btn btn-warning"><i class="bi bi-toggle-on"></i> Habilitar Color</a>
+    <a th:href="@{/menuprincipal}" class="btn btn-dark">Regresar</a>
+    <div class="mb-3"></div>
+    <!-- inicio de la tabla -->
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col" class="text-center">Actualizar</th>
+            <th scope="col" class="text-center">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="col : ${listacolor}">
+            <th scope="row" th:text="${col.codigo}"></th>
+            <td th:text="${col.nombre}"></td>
+            <td><span class="badge" th:classappend="${col.estado} ? 'text-bg-success' : 'text-bg-secondary'"
+                th:text="${col.estado} ? 'Habilitado':'Deshabilitado'"></span></td>
+            <td class="text-center"><a th:href="@{/color/actualiza/{id}(id=${col.codigo})}" class="btn btn-success btn-sm">Seleccionar</a></td>
+            <td class="text-center"><a th:href="@{/color/eliminar/{id}(id=${col.codigo})}" class="btn btn-danger btn-sm"
+                onclick="return confirm('¿Desea deshabilitar este registro?');">Seleccionar</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(listacolor)}">
+            <td colspan="5" class="text-center text-muted">No hay registros para mostrar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- fin de la tabla -->
+    </div>
+  </div>
+  <th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+
+</html>

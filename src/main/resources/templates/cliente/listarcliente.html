@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/plantilla :: cabecera('Listar Cliente')}"></head>
+
+<body>
+  <nav th:replace="~{fragments/plantilla :: menu}"></nav>
+  <div class="container-fluid px-4">
+    <div class="contenido shadow-sm p-4">
+    <h1 class="titulo-pagina">Listado de Clientes</h1>
+    <div th:replace="~{fragments/plantilla :: alertas}"></div>
+    <a th:href="@{/cliente/registro}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Registrar Cliente</a>
+    <a th:href="@{/cliente/habilita}" class="btn btn-warning"><i class="bi bi-toggle-on"></i> Habilitar Cliente</a>
+    <a th:href="@{/menuprincipal}" class="btn btn-dark">Regresar</a>
+    <div class="mb-3"></div>
+    <!-- inicio de la tabla -->
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered table-sm small">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombres</th>
+            <th scope="col">T. Documento</th>
+            <th scope="col">Num. Documento</th>
+            <th scope="col">Fec. Nacimiento</th>
+            <th scope="col">Nacionalidad</th>
+            <th scope="col">Sexo</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Distrito</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Estado</th>
+            <th scope="col" class="text-center">Actualizar</th>
+            <th scope="col" class="text-center">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="cli : ${listacliente}">
+            <th scope="row" th:text="${cli.codigo}"></th>
+            <td th:text="${cli.nombre + ' ' + cli.apellidoPaterno + ' ' + cli.apellidoMaterno}"></td>
+            <td th:text="${cli.tipoDocumento.nombre}"></td>
+            <td th:text="${cli.numeroDocumento}"></td>
+            <td th:text="${#temporals.format(cli.fechaNacimiento, 'dd/MM/yyyy')}"></td>
+            <td th:text="${cli.nacionalidad}"></td>
+            <td th:text="${cli.sexo.nombre}"></td>
+            <td th:text="${cli.direccion}"></td>
+            <td th:text="${cli.distrito.nombre}"></td>
+            <td th:text="${cli.telefono} ?: '-'"></td>
+            <td th:text="${cli.celular}"></td>
+            <td th:text="${cli.correo} ?: '-'"></td>
+            <td><span class="badge" th:classappend="${cli.estado} ? 'text-bg-success' : 'text-bg-secondary'"
+                th:text="${cli.estado} ? 'Habilitado':'Deshabilitado'"></span></td>
+            <td class="text-center"><a th:href="@{/cliente/actualiza/{id}(id=${cli.codigo})}" class="btn btn-success btn-sm">Seleccionar</a></td>
+            <td class="text-center"><a th:href="@{/cliente/eliminar/{id}(id=${cli.codigo})}" class="btn btn-danger btn-sm"
+                onclick="return confirm('¿Desea deshabilitar este registro?');">Seleccionar</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(listacliente)}">
+            <td colspan="15" class="text-center text-muted">No hay registros para mostrar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- fin de la tabla -->
+    </div>
+  </div>
+  <th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+
+</html>

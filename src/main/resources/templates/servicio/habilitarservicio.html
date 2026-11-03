@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/plantilla :: cabecera('Habilitar Servicio')}"></head>
+
+<body>
+  <nav th:replace="~{fragments/plantilla :: menu}"></nav>
+  <div class="container">
+    <div class="contenido shadow-sm p-4">
+    <h1 class="titulo-pagina">Habilitar / Deshabilitar Servicios</h1>
+    <div th:replace="~{fragments/plantilla :: alertas}"></div>
+    <a th:href="@{/servicio/listar}" class="btn btn-dark">Regresar</a>
+    <div class="mb-3"></div>
+    <!-- inicio de la tabla -->
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Precio (S/)</th>
+            <th scope="col">Estado</th>
+            <th scope="col" class="text-center">Habilitar</th>
+            <th scope="col" class="text-center">Deshabilitar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="ser : ${listaservicio}">
+            <th scope="row" th:text="${ser.codigo}"></th>
+            <td th:text="${ser.nombre}"></td>
+            <td th:text="${ser.descripcion}"></td>
+            <td class="text-end" th:text="${#numbers.formatDecimal(ser.precio, 1, 'COMMA', 2, 'POINT')}"></td>
+            <td><span class="badge" th:classappend="${ser.estado} ? 'text-bg-success' : 'text-bg-secondary'"
+                th:text="${ser.estado} ? 'Habilitado':'Deshabilitado'"></span></td>
+            <td class="text-center"><a th:href="@{/servicio/habilitar/{id}(id=${ser.codigo})}" class="btn btn-warning btn-sm"
+                th:classappend="${ser.estado} ? 'disabled'">Seleccionar</a></td>
+            <td class="text-center"><a th:href="@{/servicio/deshabilitar/{id}(id=${ser.codigo})}" class="btn btn-danger btn-sm"
+                th:classappend="${!ser.estado} ? 'disabled'">Seleccionar</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(listaservicio)}">
+            <td colspan="7" class="text-center text-muted">No hay registros para mostrar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- fin de la tabla -->
+    </div>
+  </div>
+  <th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/plantilla :: cabecera('Registrar Empleado')}"></head>
+
+<body>
+  <nav th:replace="~{fragments/plantilla :: menu}"></nav>
+  <div class="container">
+    <div class="contenido shadow-sm p-4 mb-4">
+      <h1 class="titulo-pagina">Registro de Empleado</h1>
+      <div th:replace="~{fragments/plantilla :: alertas}"></div>
+      <form th:action="@{/empleado/registrar}" method="post" th:object="${empleado}" novalidate>
+        <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="nombre" class="form-label">Nombre: <span class="text-danger">*</span></label>
+          <input type="text" id="nombre" class="form-control" th:field="*{nombre}" th:errorclass="is-invalid"
+            placeholder="Ingresa nombre" maxlength="40" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="apellidoPaterno" class="form-label">Apellido Paterno: <span class="text-danger">*</span></label>
+          <input type="text" id="apellidoPaterno" class="form-control" th:field="*{apellidoPaterno}" th:errorclass="is-invalid"
+            placeholder="Ingresa apellido paterno" maxlength="40" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidoPaterno')}" th:errors="*{apellidoPaterno}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="apellidoMaterno" class="form-label">Apellido Materno: <span class="text-danger">*</span></label>
+          <input type="text" id="apellidoMaterno" class="form-control" th:field="*{apellidoMaterno}" th:errorclass="is-invalid"
+            placeholder="Ingresa apellido materno" maxlength="40" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidoMaterno')}" th:errors="*{apellidoMaterno}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="tipoDocumento" class="form-label">Tipo de Documento: <span class="text-danger">*</span></label>
+          <!-- el value es el codigo; Spring convierte el codigo en la entidad relacionada (clave foranea) -->
+          <select id="tipoDocumento" name="tipoDocumento" class="form-select" th:classappend="${#fields.hasErrors('tipoDocumento')} ? 'is-invalid'" required>
+            <option value="">Seleccione tipo de documento</option>
+            <option th:each="o : ${listatipodocumento}" th:value="${o.codigo}" th:text="${o.nombre}"
+              th:selected="${empleado.tipoDocumento != null and empleado.tipoDocumento.codigo == o.codigo}"></option>
+          </select>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('tipoDocumento')}" th:errors="*{tipoDocumento}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="numeroDocumento" class="form-label">Numero de Documento: <span class="text-danger">*</span></label>
+          <input type="text" id="numeroDocumento" class="form-control" th:field="*{numeroDocumento}" th:errorclass="is-invalid"
+            placeholder="Ingresa numero de documento" maxlength="20" pattern="[A-Za-z0-9]{8,20}" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('numeroDocumento')}" th:errors="*{numeroDocumento}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento: <span class="text-danger">*</span></label>
+          <input type="date" id="fechaNacimiento" class="form-control" th:field="*{fechaNacimiento}" th:errorclass="is-invalid"
+             required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="nacionalidad" class="form-label">Nacionalidad: <span class="text-danger">*</span></label>
+          <input type="text" id="nacionalidad" class="form-control" th:field="*{nacionalidad}" th:errorclass="is-invalid"
+            placeholder="Ingresa nacionalidad" maxlength="50" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('nacionalidad')}" th:errors="*{nacionalidad}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="sexo" class="form-label">Sexo: <span class="text-danger">*</span></label>
+          <!-- el value es el codigo; Spring convierte el codigo en la entidad relacionada (clave foranea) -->
+          <select id="sexo" name="sexo" class="form-select" th:classappend="${#fields.hasErrors('sexo')} ? 'is-invalid'" required>
+            <option value="">Seleccione sexo</option>
+            <option th:each="o : ${listasexo}" th:value="${o.codigo}" th:text="${o.nombre}"
+              th:selected="${empleado.sexo != null and empleado.sexo.codigo == o.codigo}"></option>
+          </select>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="direccion" class="form-label">Direccion: <span class="text-danger">*</span></label>
+          <textarea id="direccion" class="form-control" th:field="*{direccion}" th:errorclass="is-invalid"
+            placeholder="Ingresa direccion" maxlength="300" rows="2" required></textarea>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="distrito" class="form-label">Distrito: <span class="text-danger">*</span></label>
+          <!-- el value es el codigo; Spring convierte el codigo en la entidad relacionada (clave foranea) -->
+          <select id="distrito" name="distrito" class="form-select" th:classappend="${#fields.hasErrors('distrito')} ? 'is-invalid'" required>
+            <option value="">Seleccione distrito</option>
+            <option th:each="o : ${listadistrito}" th:value="${o.codigo}" th:text="${o.nombre}"
+              th:selected="${empleado.distrito != null and empleado.distrito.codigo == o.codigo}"></option>
+          </select>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('distrito')}" th:errors="*{distrito}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="estadoCivil" class="form-label">Estado Civil: <span class="text-danger">*</span></label>
+          <!-- el value es el codigo; Spring convierte el codigo en la entidad relacionada (clave foranea) -->
+          <select id="estadoCivil" name="estadoCivil" class="form-select" th:classappend="${#fields.hasErrors('estadoCivil')} ? 'is-invalid'" required>
+            <option value="">Seleccione estado civil</option>
+            <option th:each="o : ${listaestadocivil}" th:value="${o.codigo}" th:text="${o.nombre}"
+              th:selected="${empleado.estadoCivil != null and empleado.estadoCivil.codigo == o.codigo}"></option>
+          </select>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('estadoCivil')}" th:errors="*{estadoCivil}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="telefono" class="form-label">Telefono: <span class="text-danger">*</span></label>
+          <input type="text" id="telefono" class="form-control" th:field="*{telefono}" th:errorclass="is-invalid"
+            placeholder="Ingresa telefono" maxlength="15" pattern="[0-9]{6,15}" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="celular" class="form-label">Celular: <span class="text-danger">*</span></label>
+          <input type="text" id="celular" class="form-control" th:field="*{celular}" th:errorclass="is-invalid"
+            placeholder="Ingresa celular" maxlength="9" pattern="9[0-9]{8}" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="correo" class="form-label">Correo: <span class="text-danger">*</span></label>
+          <input type="email" id="correo" class="form-control" th:field="*{correo}" th:errorclass="is-invalid"
+            placeholder="Ingresa correo" maxlength="100" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="rol" class="form-label">Rol: <span class="text-danger">*</span></label>
+          <!-- el value es el codigo; Spring convierte el codigo en la entidad relacionada (clave foranea) -->
+          <select id="rol" name="rol" class="form-select" th:classappend="${#fields.hasErrors('rol')} ? 'is-invalid'" required>
+            <option value="">Seleccione rol</option>
+            <option th:each="o : ${listarol}" th:value="${o.codigo}" th:text="${o.nombre}"
+              th:selected="${empleado.rol != null and empleado.rol.codigo == o.codigo}"></option>
+          </select>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('rol')}" th:errors="*{rol}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="sueldo" class="form-label">Sueldo (S/): <span class="text-danger">*</span></label>
+          <input type="number" id="sueldo" class="form-control" th:field="*{sueldo}" th:errorclass="is-invalid"
+            placeholder="Ingresa sueldo (s/)" step="0.01" min="0.01" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('sueldo')}" th:errors="*{sueldo}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="usuario" class="form-label">Usuario: <span class="text-danger">*</span></label>
+          <input type="text" id="usuario" class="form-control" th:field="*{usuario}" th:errorclass="is-invalid"
+            placeholder="Ingresa usuario" maxlength="40" minlength="4" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="clave" class="form-label">Clave: <span class="text-danger">*</span></label>
+          <input type="password" id="clave" name="clave" class="form-control" th:classappend="${#fields.hasErrors('clave')} ? 'is-invalid'"
+            placeholder="Ingresa la clave" maxlength="255" minlength="4" autocomplete="new-password" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('clave')}" th:errors="*{clave}"></div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="estado1" class="form-label">Estado:</label>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" th:field="*{estado}">
+            <label class="form-check-label" for="estado1">Habilitado</label>
+          </div>
+        </div>
+        </div>
+        <p class="text-muted small"><span class="text-danger">*</span> Campos obligatorios</p>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Registrar</button>
+        <a th:href="@{/empleado/listar}" class="btn btn-dark">Regresar</a>
+      </form>
+    </div>
+  </div>
+  <th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+
+</html>

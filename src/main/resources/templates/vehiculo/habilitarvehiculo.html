@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/plantilla :: cabecera('Habilitar Vehiculo')}"></head>
+
+<body>
+  <nav th:replace="~{fragments/plantilla :: menu}"></nav>
+  <div class="container-fluid px-4">
+    <div class="contenido shadow-sm p-4">
+    <h1 class="titulo-pagina">Habilitar / Deshabilitar Vehiculos</h1>
+    <div th:replace="~{fragments/plantilla :: alertas}"></div>
+    <a th:href="@{/vehiculo/listar}" class="btn btn-dark">Regresar</a>
+    <div class="mb-3"></div>
+    <!-- inicio de la tabla -->
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered table-sm small">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Placa</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Año</th>
+            <th scope="col">Color</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Doc. Cliente</th>
+            <th scope="col">Estado</th>
+            <th scope="col" class="text-center">Habilitar</th>
+            <th scope="col" class="text-center">Deshabilitar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="veh : ${listavehiculo}">
+            <th scope="row" th:text="${veh.codigo}"></th>
+            <td th:text="${veh.placa}"></td>
+            <td th:text="${veh.marca.nombre}"></td>
+            <td th:text="${veh.modelo}"></td>
+            <td th:text="${veh.anio}"></td>
+            <td th:text="${veh.color.nombre}"></td>
+            <td th:text="${veh.cliente.nombre + ' ' + veh.cliente.apellidoPaterno + ' ' + veh.cliente.apellidoMaterno}"></td>
+            <td th:text="${veh.cliente.numeroDocumento}"></td>
+            <td><span class="badge" th:classappend="${veh.estado} ? 'text-bg-success' : 'text-bg-secondary'"
+                th:text="${veh.estado} ? 'Habilitado':'Deshabilitado'"></span></td>
+            <td class="text-center"><a th:href="@{/vehiculo/habilitar/{id}(id=${veh.codigo})}" class="btn btn-warning btn-sm"
+                th:classappend="${veh.estado} ? 'disabled'">Seleccionar</a></td>
+            <td class="text-center"><a th:href="@{/vehiculo/deshabilitar/{id}(id=${veh.codigo})}" class="btn btn-danger btn-sm"
+                th:classappend="${!veh.estado} ? 'disabled'">Seleccionar</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(listavehiculo)}">
+            <td colspan="11" class="text-center text-muted">No hay registros para mostrar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- fin de la tabla -->
+    </div>
+  </div>
+  <th:block th:replace="~{fragments/plantilla :: scripts}"></th:block>
+</body>
+
+</html>

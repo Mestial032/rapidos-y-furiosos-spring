@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rapidos y Furiosos | Ingreso al Sistema </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- agregamos estilos -->
+  <style>
+    body {
+      background: linear-gradient(to bottom, #7431F9, #FFFFFF);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- iniciamos el contenedor de Bootstap -->
+  <div class="container d-flex justify-content-center align-items-center vh-100">
+    <!-- inicio del login -->
+    <div class="p-5 shadow-lg rounded" style="max-width: 400px; background-color: white;">
+      <h1 class="text-center">Ingreso al Sistema</h1>
+      <!-- inicio del formulario -->
+      <form th:action="@{/menuprincipal}" method="get">
+        <div class="mb-3">
+          <label for="txtUsu" class="form-label">Usuario:</label>
+          <input type="text" id="txtUsu" name="txtUsu" class="form-control" placeholder="Ingresa el usuario" required>
+        </div>
+        <div class="mb-3">
+          <label for="txtCla" class="form-label">Clave:</label>
+          <input type="password" id="txtCla" name="txtCla" class="form-control" placeholder="Ingresa la clave" required>
+        </div>
+        <div class="d-flex justify-content-center align-items-center gap-2">
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+          <a th:href="@{/menuprincipal}" class="btn btn-dark">Ir al Menu Principal</a>
+        </div>
+      </form>
+      <!-- fin del formulario -->
+    </div>
+    <!-- fin del login -->
+  </div>
+  <!-- fin del contenedor de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
